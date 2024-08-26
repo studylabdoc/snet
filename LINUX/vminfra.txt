@@ -451,6 +451,6 @@ D:\VMs\images\server1\Virtual Hard Disks\
 
 server2d
 
+D:\VMs\images\server2\
 
-
-
+두가지  가상머신을 생성함
