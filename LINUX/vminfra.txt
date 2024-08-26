@@ -236,5 +236,84 @@ Hyper-v 관리자 에서 작업
 요약
 마침을 눌러 생성
 
+실제 파일의 경우 100G가 아니라 8M 정도 생성이다.
+사용에 따라 용량이 늘어나는 것을 볼수 있다.
 
+만들어진 master를 더블클릭하여 VM 창 실행
+실행 후 ISO아 탑재가 되어 있지 않기에 아무것도 할 수 없음.
+master 우클릭 > 끄기
+master 우클릭 > 설정
+다음 순서에 따라 작업
+하드웨어 추가
+> SCSI 컨트롤러 > 추가 
+> DVD 드라이브 > 추가
+미디어
+  이미지 파일 : D:\VMs\ISO\Rocky-9.4-x86_64-dvd.iso
+  적용만 선택
 
+펌웨어 
+  하드 드라이브
+  DVD 드라이브
+  네트워크 어댑터
+
+보안
+  [ ]보안부팅사용 해제
+
+메모리
+  [v] 동적메모리 사용
+     최소: 512
+     최대: 4096
+
+프로세서
+  현재 사용하는 PC의 성능에 맞추어 설정
+
+확인 ! 누르고 빠져나감
+
+master 머신 더블클릭
+> 시작
+화면이 뜨면 방향키를 한번 움직인다.
+
+설치화면에서 보이는 메뉴는 세가지
+Install Rocky linux 9.4
+Test this media & Install Rocky linux 9.4
+Troubleshooing
+
+Install Rocky linux 9.4
+리눅스 설치
+
+Test this media & Install Rocky linux 9.4
+이전에는 cd나 DVD를 이용해서 설치하는 경우가 꽤 있음
+실제 설치전에 표면검사를 하며 데이터를 읽음.
+
+Troubleshooing
+text-mode
+텍스트 모드로 설치
+-> 
+rescue
+복구
+
+실제 설치는 Install Rocky linux 9.4 메뉴로 진행
+*Install Rocky linux 9.4    : *은 현재 선택되어 있다는 의미.
+엔터키를 눌러 설치 프로그램으로 진입
+
+vm화면안에서 마우스를 탈출키는 ctrl + alt 
+
+welcome ~~~
+설치에 사용할 언어를 선택
+  English/US로 선택 > 다음
+
+Time & date
+한국 시간대로 선택
+
+Installation Destination
+Custom > done
+
+LVM > standard partition
++ 선택
+
+swap 4096
+/boot 1024
+/boot/efi 1024
+/var 60G
+/home 5G 
+/ 나머지 모든 용량
