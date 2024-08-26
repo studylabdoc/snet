@@ -464,3 +464,16 @@ server1 설정
 master login: root
 Password : rocky
 # systemctl isolate graphical.target
+그래픽 환경이 활성화 되면 root로 로그인
+server1
+IP 192.168.10.210
+netmask 255.255.255.0
+gateway 192.168.10.1
+dns 8.8.8.8
+
+server2
+hostname server2.example.com
+IP 192.168.10.220
+netmask 255.255.255.0
+gateway 192.168.10.1
+dns 8.8.8.8
