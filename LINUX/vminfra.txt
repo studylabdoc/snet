@@ -317,3 +317,31 @@ swap 4096
 /var 60G
 /home 5G 
 / 나머지 모든 용량
+
+완료
+
+Kdump 비활성화
+
+Network & hostname
+
+  Hostname: master.local > Apply
+  Ethernet > 활성화
+  완료
+
+root password
+  적용 비밀번호: rocky
+  [v] Allow root SSH login with password
+예측하기 쉬운 비밀번호는 한번에 등록되지 않음.
+두번 선택 해야 한다.
+
+user creation
+
+적용 계정 : team01
+적용 비밀번호: team01
+
+예측하기 쉬운 비밀번호는 한번에 등록되지 않음.
+두번 선택 해야 한다.
+
+설치를 위한 기본 준비는 완료.
+
+Begin install > reboot 재부팅 > > 로그인 화면 
