@@ -477,3 +477,36 @@ IP 192.168.10.220
 netmask 255.255.255.0
 gateway 192.168.10.1
 dns 8.8.8.8
+
+푸티로 원격 연결까지 성공 된 분들은 이어서 작업
+
+server1
+hostnamectl hostname server1.example.com
+hostnamectl
+ping -c 1 www.google.com
+echo $?
+
+server2
+hostnamectl hostname server2.example.com
+hostnamectl
+ping -c 1 www.google.com
+echo $?
+
+두개 머신 
+# reboot
+
+로그인 창 로그인
+server1
+
+server2
+
+확인 이 끝난뒤
+
+# poweroff
+
+가상머신 선택 > 우클릭 > 검사점 삭제
+우클릭 > 검사점 
+
+검사점에서 우클릭 > 이름바꾸기 
+
+안되는 분들은 VMware로 작업..
