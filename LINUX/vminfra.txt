@@ -391,3 +391,66 @@ ipv4
 
 마스터 머신 우클릭 > 내보내기 > D:\VMs\export\
 > 내보내기 
+
+export에 내보내기한 파일로 두대의 리눅스 머신을 구성.
+네트워크 설정
++ 이후 작업을 위한 SSH 연결과 스냅샷 작업까지 완료
+
+오늘만드는 머신이 처음이자 끝
+
+두대 머신의 요약
+
+server1
+hostname server1.example.com
+IP 192.168.10.210
+netmask 255.255.255.0
+gateway 192.168.10.1
+dns 8.8.8.8
+
+server2
+hostname server2.example.com
+IP 192.168.10.220
+netmask 255.255.255.0
+gateway 192.168.10.1
+dns 8.8.8.8
+
+두개 머신에 대한 배포
+
+hyper-v 관리자에서 master 우클릭 >  삭제
+실제 파일은 삭제되지 않고 관리 화면에서만 삭제. 나중에 필요한 경우 재등록해서 사용
+
+hyper-v 관리자 > 호스트 우클릭 > 가상컴퓨터 가져오기 
+폴더찾기
+D:\VMs\export\master\
+master 파일이 담겨있는 폴더 자체를 선택
+
+가상시스템 선택
+master
+
+가져오기 형식 선택
+가상컴퓨터 복사 선택 (새로운 고유 ID 만들기)
+
+대상 선택
+가상컴퓨터 구성 폴더
+D:\VMs\images\server1\
+검사점 저장소
+D:\VMs\images\server1\
+스마트 페이징 폴더
+D:\VMs\images\server1\
+
+저장소 폴더 선택
+D:\VMs\images\server1\Virtual Hard Disks\
+
+요약 > 마침
+
+배포가 완료되면 master라는 이름으로 가상머신이 생성되어 있음.
+이름을 변경하고 두번째 머신을 생성
+
+완성되었을때 두개가 있어야 한다.
+
+
+server2d
+
+
+
+
