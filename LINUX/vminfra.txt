@@ -345,3 +345,26 @@ user creation
 설치를 위한 기본 준비는 완료.
 
 Begin install > reboot 재부팅 > > 로그인 화면 
+
+로그인 화면까지 왔음
+
+로그인 먼저 시도.
+
+Not listed? > 
+root
+rocky
+
+액티비티 > 터미널[다섯번째 아이콘]
+# id
+# hostname
+# hostnamectl
+
+오른쪽 상단 전원버튼 클릭 >
+Wired off > Wired setting
+> wired 의 설정 버튼 선택
+ipv4
+  Manual 변경
+  IP 192.168.10.100
+  Netmask  255.255.255.0
+  Gateway 192.168.10.1
+  DNS 8.8.8.8
