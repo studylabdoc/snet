@@ -454,3 +454,13 @@ server2d
 D:\VMs\images\server2\
 
 두가지  가상머신을 생성함
+
+각각의 가상머신에 정보를 입력!
+이제부터는 원격으로 작업이 가능!
+네트워크 구성을 하지 않음.
+그래서 네트워크 구성만 완료 하고 창은 내리겠습니다.
+
+server1 설정
+master login: root
+Password : rocky
+# systemctl isolate graphical.target
