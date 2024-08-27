@@ -694,6 +694,10 @@ server1
 D:\VMs\images\server1
 위와같이 구성
 
+server2
+D:\VMs\images\server2
+위와같이 구성
+
 
 
 
