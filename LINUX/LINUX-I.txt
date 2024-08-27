@@ -1,12 +1,9 @@
 이 수업을 위한 리눅스 머신은 총 두대입니다.
 
 1. 두 가상머신은 서로 통신이 가능해야 하며 당연히 외부 통신도 가능해야 합니다.
-2. 어느정도 원격 접속을 위한 툴 및 가상머신 구성에 대해서는 따로 언급하지 않습니다.
 
 다음과 같이 가상머신은 구성되어 있습니다.
 server1.example.com
-
-
 server2.example.com
 
 # 리눅스 소개
@@ -178,3 +175,832 @@ FSF의 설립자인 리차드 스톨만이 GNU 프로젝트를 추진한 후 199
 [참고]
 
 기본 리눅스 커널에 자사의 프로그램을 같이 포함하여 특정 사용자를 위한 (서버, 클라이언트, 모바일, 임베디드)OS를 구성하여 만들어 내는 OS를 배포판이라 한다.
+
+현재 많이 이용되고 있는 배포판의 종류
+RHEL
+  redhat
+  centos
+  rocky
+  fedora
+
+debian
+  debian
+  ubuntu
+suse
+  suse
+  open sesu
+
+RHEL 
+centos upstream
+rocky
+fedora - RHEL - centos
+>
+fedora - centos upsteam  - RHEL 
+fedora - centos upsteam  - RHEL - rocky 
+   
+3년에 한번씩 주 버전을 변경하겠다.
+
+자격증
+국내에서 취득 가능한 리눅스 자격증
+리눅스마스터 2[국가공인]/ 1
+------------------------------국내 , 필기
+
+RHCSA RHCE
+suse 
+LFCS 리눅스 파운데이션 자격증
+
+# 리눅스 기본정보
+
+# 단원목표
+
+---
+
+- 리눅스 명령어 형식
+- 도움말
+- 시스템의 기본적인 정보를 확인하는 명령어
+
+리눅스 명령어 형식
+
+## Linux CMD Format
+
+리눅스에서는 명령어 입력으로 작업을 수행하는 TEXT 모드(CLI)를 주로 사용한다. 명령어 사용법을 익혀야 하며, 명령어를 입력하면 쉘에서 명령어를 해석하여 작업을 수행한다. 명령어에는 옵션(Options)과 인자(Arguments)가 있는데, 옵션은 명령어의 동작을 다르게 하는데 사용하고, 인자는 명령어의 인자나 옵션의 인자로 사용될 수 있다.
+
+[명령어 형식]
+# Command [options] [Arguments]
+
+각 문자의 구분은 white space(공백문자)로 구분한다.
+
+[root@serverX ~]#  ls    -l   /var
+        |          |      |    |
+       쉘프롬프트  명령어 옵션  인자
+
+
+명령어를 사용하는 다양한 형식은 다음과 같다.
+
+- "# Command" 사용하는 경우
+[EX] # ls
+- "# Command Options" 사용하는 경우
+[EX] # ls -l
+- "# Command Arguments" 사용하는 경우
+[EX] # ls /var
+- "# Command options Arguments" 사용하는 경우
+[EX] # ls –l /var
+- 한 개의 명령어 라인에 여러 명령어 사용 하는 경우
+[EX] # cd /test ; ls –l
+
+(예) "명령어" 형식을 사용하는 경우
+# ls 
+# cal 
+# uname
+
+(예) "명령어 + 옵션" 형식을 사용하는 경우
+# uname -sr  
+# uname -a 
+# ls -l
+
+(예) "명령어 + 인자" 형식을 사용하는 경우
+# cd /etc/sysconfig/network-scripts 
+# ls /var 
+# cal 2002
+
+(예) "명령어 + 옵션 + 인자" 형식을 사용하는 경우
+# ls -l /var
+# find / -name core
+
+[참고] 옵션에 대한 설명
+명령어의 옵션은 자리를 바꾸거나 혹은 합쳐서 사용해도 같은 의미로 동작한다.
+# ls -a -l -F
+# ls -al -F
+# ls -alF
+# ls -Fla
+
+< 명령어의 옵션을 약자로 사용하지 않을 경우 >
+명령어의 옵션을 약자 형태로 쓰지 않기 위해서는 "--(double dash)"을 붙인다.
+# ls --all    (# ls -a)
+
+[참고 & 주의] 옵션의 인자가 존재하는 경우의 예
+예) # find / -name core -type f
+EX : # find . -name file1 -type f
+
+# cmd -i -f arg1(0)
+# cmd -f arg1 -i(0)
+# cmd -if arg1(0)
+# cmd -fi arg1(X) 
+
+특정 값이 인자에 포함되어야 하는 경우는 인자 뒤에 값이 들어가야 한다.
+옵션의 순서는 변경이 가능하지만 옵션과 같이 지정되는 인자의 경우는 옵션뒤에 와야하는 것을 주의한다.
+
+
+
+도움말
+
+- man 명령어
+    
+     **# man ls**
+    
+     **# man –k calendar**
+    
+     **# whatis passwd**
+    
+     **# man –s 5 passwd**
+    
+     **# man ls | col –b > ls.txt**
+    
+     **# info ls**
+    
+     **# which ls**
+    
+     **# whatis ls**
+
+## man 명령어
+
+[명령어 형식]
+
+# man ls /* 명령어나 파일의 이름으로 검색하는 경우 */
+# man -k calendar  /* keyword로 검색하는 경우 (색인파일 생성 필요)*/
+# whatis passwd 
+# man -s 1 passwd/* section번호로 검색하는 경우 */
+
+[EX1] 명령어에 대한 man 페이지 확인
+(간략하게 정보 확인) # ls --help   (# CMD --help)
+(자세하게 정보 확인) # man ls      (# man CMD)
+
+# man ls
+빠져나오는경우 q
+
+[참고] man 페이지 내에서 페이지 제어
+
+<Enter> 하나의 라인씩 밀리면서 출력한다.
+<Space> <--> <CTRL + B> 한 페이지씩 밀리면서 출력한다.
+      CTRL + B로 이전 페이지로 돌아간다.
+/-a     <--> n, N    (n: next) 특정 단어를 검색하여 찾는다. 두 개 이상 존재할경우는 n으로 다음 단
+    어를 찾는다 
+: 자주 사용되는 기능
+/OPTIONS 
+/EXAMPLES 
+/Examplesls
+q 
+h
+
+[EX2] 명령어를 알지 못하는 경우
+
+# man –k calendar
+calendar: nothing appropriate  -> 에러메시지가 나오면
+
+처음 –k 옵션을 실행하게 된다면 색인에 대해 생성이 되어있지 않기 때문에 에러 메시지를 출력한다
+
+[참고] CENTOS7은 에러메시지가 나오지 않는다.(100%는 아니다.)
+
+# makewhatis 
+-> 약간 시간이 걸린다.(약 1분 정도) [ 명령어에 대한 색인을 생성한다 ] << centos 5,6 버전에 해당
+
+
+[참고]  7버전 이상에서 색인 데이터베이스 생성
+
+처음 서버를 설치한 경우에 스케쥴러 시간이 되지 않으면 아직 색인이 생성되어 있지 않다. 
+그렇기 때문에 수동으로 색인을 생성하는 작업을 해준다.
+# cd /etc/cron.daily/
+# ls
+grotate  man-db.cron  mlocate
+# ./man-db.cron
+# 
+
+[참고]  8버전 이상에서 색인 데이터베이스 생성
+
+man-db.cron 파일이 없기 때문에 레포지토리에서 설치 이후 진행한다.
+# dnf -y install man-db-cron
+# cd /etc/cron.daily
+# ls
+grotate  man-db.cron
+# ./man-db.cron
+>> 색인 생성중
+#
+
+[참고] 9버전 이상에서 색인 데이터베이스 생성
+# mandb
+
+# man -k calendar
+cal (1)              - display a calendar
+cal (1p)             - print a calendar
+difftime (3p)        - compute the difference ...
+
+[EX3] 섹션 별로 검색 할 경우
+# whatis passwd
+passwd (5)           - 패스워드 파일
+sslpasswd (1ssl)     - compute password hashes
+passwd (1)           - update user's authentic...
+
+# man -s 1 passwd /* passwd 명령어 매뉴얼 페이지 */
+# man -s 5 passwd /* /etc/passwd 파일 매뉴얼 페이지 */
+
+
+섹션번호로 보는 방법이 필요한 이유는 # passwd CMD형식으로 검색하게 된다면 1번 섹션에 대해서만 출력된다. 2~ 이후의 섹션에 대하여 검색하기 위해서는 –s 옵션을 사용하는 섹션으로 검색하는 방법에 대하여 알고있어야한다.
+
+# man passwd
+# man -s 1 passwd
+# man -s 5 passwd
+
+매뉴얼 페이지 각 섹션별 정보
+매뉴얼 페이지 각 섹션별 정보
+  1     누구나 실행할 수 있는 사용자 명령 (User Commands)
+  2     시스템 호출 (System Calls), 즉 커널에서 제공하는 함수
+  3     C 라이브러리 함수 (C Library functions)
+  4     디바이스와 네트워크 인터페이스 (Devices and Network Interfaces), 즉 /dev 디렉토리에 있는 특별한 파일들
+  5     파일 포맷 (File Formats), 예를 들어 /etc/passwd
+  6     게임과 데모 (Games and Demos)
+  7     환경, 테이블, 매크로 (Environments, Tables, and Macros) 등의 잡다한 여러 가지들
+  8     시스템 관리자만 실행할 수 있는 시스템 관리용 명령들 (Maintenance Commands)
+  9     커널 루틴에 관련된 문서들의 리눅스만의 독자적인 저장소
+  n     새로운 문서들의 저장소. 보다 적당한 장소로 이동된다.
+  o     오래된 문서들의 저장소. 유예 기간으로 보관되고 있는 것들이다.
+  l     특정 시스템에 대한 로컬 문서들
+
+
+[EX4] 추가적인 정보 확인 명령어
+
+# info ls 
+man 페이지에서 간략하게 나오고 info에서 확인하라는 메시지가 하단에 나타나는 경우에 info 명령어를 확인한다.
+# pinfo ls 
+map 형식으로 나타내주며 색깔표시가 보기좋게 되어있다.
+info로 확인해야 할 일이 있다면 pinfo를 사용하기 바란다.
+
+# apropos ls     (# man -k calendar) 
+# man -k ls
+
+# whatis ls    명령어의 메뉴얼 파일 섹션 확인
+ls (1)               - list directory contents
+ls (1p)              - list directory contents    
+# whereis ls   명령어의 바이너리 파일 경로, 메뉴얼 파일 실제 경로
+ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
+# which ls     명령어 실제 경로
+alias ls='ls --color=auto'
+        /usr/bin/ls 
+# ls —-help
+
+# whatis ls 명령어의 모든 섹션 확인
+ls (1)               - 경로의 내용을 나...
+ls (1p)              - list directory contents
+# whereis ls 메뉴얼 페이지의 경로 확인
+ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
+# which ls 명령어의 실제 경로 확인
+alias ls='ls --color=auto'
+	/usr/bin/ls
+# ls --help 명령어의 간단한 사용 형식 확인
+
+## passwd 명령어
+
+**암호 변경 권한 차이**
+
+- root 사용자 : 모든 사용자의 암호를 변경 가능
+- 일반 사용자 : 자신의 암호만 변경 가능
+
+**암호 변경 시 이전 암호 입력 여부**
+
+- root 사용자 : 암호 변경시 이전 암호 물어보지 않고 변경 가능
+- 일반 사용자 : 이전 암호를 반드시 맞추어야만 새로운 암호 입력 가능
+
+[명령어 형식]
+
+# passwd 
+# passwd fedora
+
+[EX1] 관리자가 자신의 암호 변경하는 경우
+
+[TERM1] root 사용자 터미널
+# passwd
+Changing password for user root. <변경하는 계정의 ID가 출력된다>
+New UNIX password: (fedora) 
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: (fedora)
+passwd: all authentication tokens updated successfully. <연속으로 동일한 비밀번호를 입력시 변경>
+
+# passwd root
+Changing password for user root.
+New UNIX password: (soldesk) 
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: (soldesk) 
+passwd: all authentication tokens updated successfully.
+
+# passwd fedora
+Changing password for user fedora.
+New UNIX password: (123user) 
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: (123user) 
+passwd: all authentication tokens updated successfully.
+
+[TERM2] fedora 사용자 터미널
+# ssh fedora@localhost
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+RSA key fingerprint is 3b:25:5b:9a:ae:0f:ba:fc:85:66:73:d4:fc:e2:78:c6.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'localhost' (RSA) to the list of known hosts.
+fedora@localhost's password: (123user)
+$ id
+uid=1001(fedora) gid=1001(fedora) groups=1001(fedora)
+$ passwd
+Changing password for user fedora.
+Changing password for fedora
+(current) UNIX password: (123user)    /* 이전 비밀번호 확인 */
+New UNIX password: (P@ssw0rd##1.)         /* 새로운 비빌번호 입력 */
+Retype new UNIX password: (P#ssw0rd##1.)  /* 새로운 비빌번호 동일하게 재 입력 */
+passwd: all authentication tokens updated successfully.
+$ exit 
+#
+비밀번호를 변경하는 일 외에도 passwd 삭제, 사용자 계정에 대한 잠금, 해제 등 여러 기능이 있다.
+
+(복원) 관리자가 사용자의 암호 변경
+fedora 사용자의 암호를 fedora로 변경
+# passwd fedora 
+-> 일반사용자는 아이디와 암호를 동일하게 설정할수 없다.
+
+stdin옵션
+# echo 'password' | passwd --stdin [USERNAME]
+
+시스템의 기본적인 정보를 확인하는 명령어
+
+- uname 명령어
+    
+     # uname –a
+    
+     # cat /etc/redhat-release
+    
+- date 명령어
+    
+     # date
+    
+     # date +%m%d
+
+## uname 명령어
+
+운영체제에 맞는 애플리케이션(Application)을 설치하려면 운영체제의 종류와 버전에 대한 정보등 확인 할 수 있어야 한다. 또한 운영체제의 시간을 확인하고 서버와 동기화를 시키는 작업등을 할 수 있어야 한다.
+
+uname 명령어를 사용하는 경우
+
+- 운영체제의 종류와 버전 확인(OS + Version)
+- 커널 버전 확인(Kernel Version)
+
+[명령어 형식]
+# uname [OPTIONS]
+
+[명령어 옵션]
+옵션 : 설  명
+-a : 모든 정보
+-s : 운영체제 종류 (예: Linux) 
+-r : 운영체제 릴리즈 (예: 2.6.18-164.11.1.el5) 
+-n : 호스트 이름 (예: linux200) 
+-i : 머신아키텍쳐 (예: i386) 
+-p : 프로세스 종류 (예: athlon)
+
+[EX1] uname 명령어
+# uname -a
+Linux server1.example.com 4.18.0-147.el8.x86_64 #1 SMP Wed Dec 4 21:51:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+uname 명령어의 출력 결과 해석
+Linux                              (-s) 커널 이름(kernel name)
+server1.example.com                (-n) 호스트 이름(Hostname)
+4.18.0-147.el8.x86_64             (-r) 커널 릴리즈
+커널 버전 : 주버전.부버전.fix버전-몇개의업데이트가있었는가
+#1 SMP Wed Aug 7 18:08:02 UTC 2019 (-v) 커널 버전
+x86_64                             (-m) 머신 하드웨어 이름
+x86_64                             (-p) CPU 종류
+x86_64                             (-i) 하드웨어 구현 플랫폼
+GNU/Linux                          (-o) 운영체제 종류
+
+# uname -s  /* 커널 이름 */
+# uname -n  /* 호스트 이름 */
+# uname -r  /* 커널 릴리즈 */
+# uname -sr /* 커널 이름과 릴리즈 */
+# uname -v  /* 커널 버전 */
+# uname -m  /* 머신 하드웨어 이름 */
+# uname -p  /* CPU 종류 */
+# uname -i  /* 하드웨어 구현 플랫폼 */
+# uname –o  /* 운영체제 종류 */
+# uname -nsr
+
+[EX2] 설치된 리눅스 운영체제 종류 확인
+# uname -a
+Linux server1.example.com  4.18.0-147.el8.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+uname 대신에 시스템 정보를 확인하는 명령어
+# hostnamectl
+Static hostname: server1.example.com
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: e6c3061aab7d4db1904499fdfb0c8b0d
+         Boot ID: 35a2166869f547679dcd448834ae9096
+  Virtualization: vmware
+Operating System: Rocky Linux 9.0 (Blue Onyx)      
+     CPE OS Name: cpe:/o:rocky:rocky:9::baseos
+          Kernel: Linux 5.14.0-70.17.1.el9_0.x86_64
+    Architecture: x86-64
+ Hardware Vendor: VMware, Inc.
+  Hardware Model: VMware Virtual Platform
+
+릴리즈 정보 확인하기
+# ls /etc/*release
+/etc/os-release  /etc/redhat-release  /etc/rocky-release  /etc/system-release
+
+/etc/centos-release
+/etc/os-release
+/etc/redhat-release > /etc/centos-release의 링크파일
+/etc/system-release
+# cat /etc/redhat-release
+Rocky Linux release 9.0 (Blue Onyx)
+
+[EX3] 문서(Documentation) 사이트(운영체제 버전별 정보 확인)
+
+
+https://docs.redhat.com/
+http://www.centos.org/docs/
+http://www.centos.org/docs/3/CentOS 3.X
+http://www.centos.org/docs/4/CentOS 4.X
+http://www.centos.org/docs/5/CentOS 5.X
+centos6부터는 RHEL 레드햇 공식 웹사이트를 이용해야한다.
+[참고]
+centos는 RHEL을 전신으로 개발된 무료용버전이기 때문에 기술들이 레드햇에서 문서가 있는 경우가 많다.
+두가지 도메인 주소를 모두 기억해두자.
+
+리눅스 기본환경 
+- CLI / GUI 환경전환과 로그인 로그아웃
+- 언어변경
+- 제어문자
+- 운영체제 종료와 재부팅
+- 관리자 암호 변경
+
+CLI / GUI 환경전환과 target name 
+
+- system runlevel - 시스템의 현재 상태를 나타내는 숫자.
+- init telinit
+- **system runlevel type**
+
+0 - halt                          시스템종료
+1 - single user mode              싱글유저모드(시스템복구, 관리자 비밀번호 변경)
+2 - multiuser                     멀티유저가능(단 nfs 사용불가)
+3 - full multiuser                멀티유저가능(모든 기능 사용 가능)
+4 - unused                        이후를 위해 예약된 번호
+5 - full multiuser, graphical     그래픽모드를 지원하는 멀티유저 
+6 - reboot                        재부팅
+
+runlevel 5는 runlevel3의 모든 기능과 GUI기능의 결합이다.
+
+- 시스템 런레벨의 확인
+
+# who -r
+            run-level 5  2020-03-11 09:40
+            운영레벨=5    운영레벨 전환 시간
+# runlevel
+N 5
+# init 3
+login: root
+password: redhat
+# runrevel
+5 3
+# init 5
+# who -r
+run-level 5  2020-03-11 10:23                   last=3
+현재 구성 정보   시스템 전환시간                  이전 구성 정보 레벨 확인
+
+# systemctl get-default
+graphical.target     => init 5과 동일
+
+### system run level은 무엇인가?
+
+런레벨은 하나의 시스템에서 여러 가지의 운영 환경을 제공하는 것을 의미한다.
+리눅스 서버의 경우 운영 환경의 전환을 통해 GUI CLI 의 변경이 가능하다.
+
+EX: GUI > TUI,CLI
+
+# 언어변경
+
+---
+
+- 현재 사용중인 언어 확인
+    
+     # echo $LANG
+    
+     # locale
+    
+- 현재 지원되는 언어 종류 확인
+    
+     # locale -a
+    
+- 임시적인 언어 변경
+    
+     # export LANG=C ;  echo $LANG
+    
+- 영구적인 언어 변경
+    
+     # localectl set-locale LANG='변경할 언어'
+
+현재 사용중인 언어 확인하기
+
+# set | grep ^LANG    (# locale -a | grep LANG)
+LANG=ko_KR.UTF-8
+
+# locale
+
+LANG=ko_KR.UTF-8
+LC_CTYPE="ko_KR.UTF-8"
+LC_NUMERIC="ko_KR.UTF-8"
+LC_TIME="ko_KR.UTF-8"
+LC_COLLATE="ko_KR.UTF-8"
+LC_MONETARY="ko_KR.UTF-8"
+LC_MESSAGES="ko_KR.UTF-8"
+LC_PAPER="ko_KR.UTF-8"
+LC_NAME="ko_KR.UTF-8"
+LC_ADDRESS="ko_KR.UTF-8"
+LC_TELEPHONE="ko_KR.UTF-8"
+LC_MEASUREMENT="ko_KR.UTF-8"
+LC_IDENTIFICATION="ko_KR.UTF-8"
+LC_ALL=
+
+임시적으로 언어를 변경하기
+# export LANG=ko_KR.euckr 
+
+# export LANG=C
+
+임시적으로 언어를 변경해야 하는 경우 :
+현재 지정된(설정된) 언어셋을 실행해야 하는 프로그램에서 지원하지 않을 경우에 사용한다.
+TOOL을 실행시에 $LANG의 변수를 읽어들인다. 만약 지원하지 않는 언어로 지정되어있을 경우에는 글자가 정상적으로 출력되지 않을 가능성이 있다.
+
+제어문자
+Ctrl + C    Terminates the command currently running.
+Ctrl + D    Indicates end-of-file or exit.
+
+**① <CTRL + C>  =  ^C**
+- 현재 실행중인 프로세스를 인터럽트(Interrupt) 걸어서 종료한다.
+
+인터럽트 - 인터럽트는 컴퓨터에 장착된 장치나 컴퓨터 내의 프로그램으로부터 오는 신호로서 운영체계가 하던 일을 멈추고 다음에 무엇을 할 것인지를 결정하게 한다. 인터럽트 신호가 입력되게 된다면 이전의 상태에 상관없이 인터럽트된 신호를 먼저 처리한다.
+
+# sleep 500
+	# ls 
+	# locale
+  반응이 없다.
+<CTRL + C>
+#    < 명령어 실행이 가능해 진다.
+
+sleep 명령어를 수행중에 <CTRL + C>를 이용하여 실행을 종료한다.
+
+**② <CTRL + D>**
+
+- "파일의 끝(EOF)" 의미 또는 "현재 쉘 종료(exit)" 의미를 갖는다.
+
+(파일의 끝(EOF) 의미의 **<CTRL + D>**)
+
+# mkdir –p /test	/* 최상위 디렉토리 아래 test 디렉토리 생성 */
+# cd /test	      /* 생성한 test 디렉토리로 이동 */
+# pwd             /* 현재 작업 디텍토리 확인*/
+ /test
+# cat > file1	    /* 파일에 내용 입력 */
+Hello, Linux <Enter>
+<CTRL + D>        /*“파일의 끝”의미 */
+
+# cat file1  /* 입력된 파일 내용 확인 */
+Hello, Linux
+
+(쉘 종료(exit) 의미의 <CTRL + D>)
+# ps /* 프로세스 확인*/
+# bash /* 쉘 실행 */
+# ps/* 프로세스 확인 */
+
+PID  TTY          TIME CMD
+3290 pts/0    00:00:00 bash
+3608 pts/0    00:00:00 bash
+
+
+[참고] BASH : 명령어 해석기
+
+ls 라는 명령어 하나만의 결과를 보기 위해서도 하드디스크, 키보드, 모니터등 여러 가지 장치를 제어해야 하는데 bash를 통한 명령어가 명령어 해석이 된 다음 커널에서 각종 장치를 제어하여 결과를 출력해준다.
+
+현재 ps로 나오는 결과의 bash는 사용중인 명령어 해석기가 bash라는 것을 나타내준다.
+
+
+bash                       bash
+----------+--wait------>+----------> 부모쉘은 자식 쉘이 실행되는동안 wait상태로 대기하다가
+          |             |            반환즉시 wait상태를 종료하고 명령어 입력을 받는다
+          | bash        |
+          +------------>+ 자식 쉘이 실행된다
+
+# <CTRL + D>/* 쉘 종료 (logout이 되는 것을 확인) */ 
+
+bash
+----------+            +--------->
+          |            |
+          | bash       |
+          +------------+
+
+
+
+
+# ps
+PID TTY          TIME CMD
+3290 pts/0    00:00:00 bash /* 이전에 실행한 bash shell이 종료 */
+
+# <CTRL + D> /* 쉘 종료 (logout이 되는 것을 확인) */
+GUI – 터미널이 종료된다
+CLI – login 창으로 돌아간다
+
+# init 3
+login: root
+password: redhat
+# ps
+# bash
+# ps 
+^d입력
+# ps
+^d
+login:  
+
+운영체제 종료와 재부팅
+- 시스템 종료
+    
+    # halt
+    # poweroff
+    
+    # init 0
+    
+    # shutdown -h now
+    
+- 시스템 재부팅
+    
+     # reboot
+    
+     # init 6
+    
+     # shutdown -r now
+    
+
+---
+
+- [ ]  다양한 시스템 종료 명령어
+- 시스템을 종료하는 경우(halt)
+
+
+이 명령어들은 시스템을 바로 종료한다.
+# shutdown -h now      /* -h : halt */ /* 만약 시간을 지정하지 않는다면 기본 60초 이후 종료된다 */
+# halt 
+# poweroff
+# init 0
+
+시스템을 재부팅(reboot)
+# shutdown -r now      /* -r : reboot */
+# reboot
+# init 6
+
+
+예약 종료
+# shutdown -h +5        /* -h : halt, +5 : 5분의 유예기간 */
+
+Shutdown scheduled for 수 2018-02-28 20:01:27 KST, use 'shutdown -c' to cancel.
+
+Broadcast message from root@server1 (Wed 2018-02-28 19:56:27 KST):
+
+The system is going down for power-off at Wed 2018-02-28 20:01:27 KST!
+ /* 현재 상태에서 5분간 대기후 종료 */
+
+# shutdown -c      /* 종료 취소 */
+
+Broadcast message from root@server1 (Wed 2018-02-28 19:57:20 KST):
+
+The system shutdown has been cancelled at Wed 2018-02-28 19:58:20 KST!
+/* 시스템 종료를 취소 */
+이전버전에서는 제어문자 <CTRL + C>를사용하여 취소를 했지만 centos7에서는 shutdown -c 명령어를 사용하여 취소해야한다.
+
+예약 종료 취소
+# shutdown -c       /* -c: cancel, 관리자 및 다른 관리자가 예약종료를 취소시 사용 */
+
+Broadcast message from root@server1 (Wed 2018-02-28 20:00:10 KST):
+
+The system shutdown has been cancelled at Wed 2018-02-28 20:01:10 KST!
+
+시스템을 종료하거나 재부팅 하는 경우
+1. 정기 PM
+2. 하드웨어 업그레이드
+3. 대규모 업데이트
+4. * 해킹의 경우 *
+
+
+관리자 암호 변경
+- 관리자 암호 변경 방법
+    
+     # passwd
+
+
+- [ ]  관리자 암호(password) 변경
+
+초기 설치 시에는 비밀번호를 쉽게 주고 설치를 완료할 수 있다. 하지만 실제로 외부에서 접속을 하거나 사용을 하기 전에는 조직의 정책에 맞게 비밀번호를 변경해야하기 때문에 비밀번호를 변경하는 방법을 알고 있어야한다.
+
+root 사용자는 **모든 사용자의 암호 변경**이 가능하고, 일반 사용자는 **자신의 암호 변경**만 가능하다.
+
+passwd 명령어 다음에 지정된 사용자가 없으면 자신의 암호를 변경하는 경우이다.
+
+
+# passwd    /* 변경된 root 계정의 비밀번호를 복구한다. */
+Changing password for user root.
+New UNIX password: (centos)                       /* 새 패스워드 입력 */
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: (centos)                /* 새 패스워드 확인 메시지 */
+passwd: all authentication tokens updated successfully.
+
+root 사용자의 비밀 번호 변경 중
+새  암호:
+잘못된 암호: 암호는 8 개의 문자 보다 짧습니다
+새  암호 재입력:
+passwd: 모든 인증 토큰이 성공적으로 업데이트 되었습니다.
+
+
+## date
+
+date를 이용해서 시간을 확인한다. 만약 시간이 잘못 설정되어 있으면 date나 rdate,ntp명령어를 통해 시간을 재설정 해준다. 이때 rdate,ntp명령어를 사용하는 경우 서버로부터 시간을 동기화하여 사용 할 수 있으므로 시스템의 시간을 정확하게 설정 할 수 있다.
+
+일반 사용자(EX: fedora)는 date 명령어를 통해 시간 확인만 가능하고, 관리자(EX: root)는 date 명령어를 통해 시간 확인이나 변경이 가능하다.
+
+- root 사용자 : 현재 시간을 설정 및 확인 할 수 있다.
+- 일반 사용자 : 현재 시간만 확인 할 수 있다. (즉, 관리자가 아니면 시간을 변경 할 수 없다.)
+
+[명령어 형식]
+# date /* 시스템 시간 출력 */
+# date 07241300/* 시스템 시간 변경 */
+# date +%m%d /* 시간 출력 형태 변경 */
+
+[EX1] 운영체제 시간 확인 및 변경
+# date /* 현재 운영체제에 설정되어 있는 시간 출력 */
+요일 월 일 시:분:초 UTC 년
+Tue Jan 26 05:16:44 KST 2010
+
+시간정보 변경후 확인하기
+테스트를 위하여 터미널을 하나 더 실행
+[TERM1]# watch -n 1 date
+
+아래 작업들은 [TERM2]에서 작업한다.
+# date 08161300     /* 8월 16일 13:00 로 설정 년도는 생략가능하다 */
+       월.일.시.분 단위로 작성
+# date 081613002009 /* 2009년 8월 16일 13:00 */
+       월.일.시.분.연도
+
+[참고] 8버전에서는 rdate 명령어가 존재하지 않는다.
+[EX3] date 명령어의 시간 출력 형식 변경하여 출력하기
+
+대부분의 프로그램은 하루에 한번 씩 로그 파일을 만들도록 하는 경우가 많이 존재한다. 
+이런 경우 date 명령어를 아래와 같이 응용하여 사용하는 경우가 많다.
+
+실무에서 많이 사용되는 로그 파일 이름 형식 : file_**0807**.log
+
+[시간 포맷 형식]
+# date +%m%d        /* %m : month, %d : day */
+# date +%m%d_%H%M   /* %H : hour, %M : Minute */
+
+[실습] 시간정보 포맷 변경하여 파일 저장
+# cd /test
+# rm -rf /test/*
+# touch file_`date +%m%d`.log
+# ls -l
+# ls -l
+total 0
+-rw-r--r--. 1 root root 0 Mar 11 15:18 file_0311.log
+
+date 명령어에서 시간형식 포맷 변경시 자주 사용되는 옵션
+%m 월
+%d 일
+%H 시
+%M 분
+%S 정수 초
+%s 1970.01.01 기준으로 흐른 초시간
+[참고]
+역 따옴표를 표현하기 위한 또 다른 방법
+# touch file_$(date +%m%d).log
+
+
+
+[참고] 시간의 종류(Clock Type)
+시간(Clock)
+- Software Clock : 운영체제의 시간
+- Hardware Clock : 하드웨어(펌웨어) 시간
+
+■ Software clock 
+# date
+
+■ Hardware Clock 
+# hwclock --show
+
+HW-OS 시간 동기화
+
+# hwclock --systohc    /* System Time -> Hardware Clock */
+# hwclock --hctosys    /* Hardware Clock -> System Time */
+
+# 관리자 비밀번호 변경
+
+## 관리자 비밀번호를 변경하는 경우
+
+- 주기적인 비밀번호 변경
+- 비밀번호를 잊어버린경우
+- 해킹들의 외부 침입으로 인한 경우
+
+### [EX] 기본적인 비밀번호 변경
+
+# passwd
+
+일상적으로 변경하는 경우에는 passwd 명령어로 변경한다.
+
+
+
