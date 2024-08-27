@@ -698,6 +698,15 @@ server2
 D:\VMs\images\server2
 위와같이 구성
 
+server 구성 변경
+MEM 4G
+core 4
+
+server1 기동
+
+로그인
+root / rocky
+# systemctl isolate graphical.target
 
 
 
