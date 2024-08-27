@@ -666,7 +666,33 @@ FILE > export to OVF >
 D:\VMs\OVF에 저장
 저장 시작...
 
+배포 / 네트워크 구성
+termius 
+putty X 
 
+OVF를 통해 배포
+OVF 파일 > 
+
+server1
+IP 192.168.10.210
+netmask 255.255.255.0
+gateway 192.168.10.2
+dns 8.8.8.8
+
+server2
+hostname server2.example.com
+IP 192.168.10.220
+netmask 255.255.255.0
+gateway 192.168.10.2
+dns 8.8.8.8
+
+import >
+File > open
+D:\VMs\OVF
+master.ovf 파일을 선택
+server1
+D:\VMs\images\server1
+위와같이 구성
 
 
 
