@@ -327,6 +327,8 @@ EX : # find . -name file1 -type f
      # whatis ls
 
 ## man 명령어
+모든 프로그램, 모든 제품에는 도움말이 있다.
+모든 명령어도 도움말이 있다.(단 생성된 경우)
 
 [명령어 형식]
 
@@ -352,7 +354,7 @@ EX : # find . -name file1 -type f
 : 자주 사용되는 기능
 /OPTIONS 
 /EXAMPLES 
-/Examplesls
+/Examples
 q 
 h
 
@@ -397,6 +399,19 @@ grotate  man-db.cron
 cal (1)              - display a calendar
 cal (1p)             - print a calendar
 difftime (3p)        - compute the difference ...
+
+매뉴얼의 구성 요소
+LS(1) : 명령어와 섹션 번호 
+NAME : 명령어에 대한 짧은 소개
+SYNOPSIS: 문법
+DESCRIPTION: 설명
+EXAMPLE: 샘플 , 명령어를 사용함에 있어 예시파일을 제공
+SEE ALSO: 참고해야 하는 명령어
+
+영문이라서 너무 힘들다!
+http://man.he.net/
+온라인에서 검색한 뒤 한글로 변환해서 의미를 확인하기
+
 
 [EX3] 섹션 별로 검색 할 경우
 # whatis passwd
@@ -461,76 +476,26 @@ alias ls='ls --color=auto'
 	/usr/bin/ls
 # ls --help 명령어의 간단한 사용 형식 확인
 
-## passwd 명령어
+passwd 명령어
 
-암호 변경 권한 차이
-
-- root 사용자 : 모든 사용자의 암호를 변경 가능
-- 일반 사용자 : 자신의 암호만 변경 가능
-
-암호 변경 시 이전 암호 입력 여부
-
-- root 사용자 : 암호 변경시 이전 암호 물어보지 않고 변경 가능
-- 일반 사용자 : 이전 암호를 반드시 맞추어야만 새로운 암호 입력 가능
-
-[명령어 형식]
-
-# passwd 
-# passwd fedora
-
-[EX1] 관리자가 자신의 암호 변경하는 경우
-
-[TERM1] root 사용자 터미널
-# passwd
-Changing password for user root. <변경하는 계정의 ID가 출력된다>
-New UNIX password: (fedora) 
-BAD PASSWORD: it is based on a dictionary word
-Retype new UNIX password: (fedora)
-passwd: all authentication tokens updated successfully. <연속으로 동일한 비밀번호를 입력시 변경>
-
-# passwd root
-Changing password for user root.
-New UNIX password: (soldesk) 
-BAD PASSWORD: it is based on a dictionary word
-Retype new UNIX password: (soldesk) 
+# passwd team01
+Changing password for user team01.
+New password: redhat
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: redhat
 passwd: all authentication tokens updated successfully.
 
-# passwd fedora
-Changing password for user fedora.
-New UNIX password: (123user) 
-BAD PASSWORD: it is based on a dictionary word
-Retype new UNIX password: (123user) 
+패스워드 복원
+# passwd team01
+Changing password for user team01.
+New password: team01
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: team01
 passwd: all authentication tokens updated successfully.
-
-[TERM2] fedora 사용자 터미널
-# ssh fedora@localhost
-The authenticity of host 'localhost (127.0.0.1)' can't be established.
-RSA key fingerprint is 3b:25:5b:9a:ae:0f:ba:fc:85:66:73:d4:fc:e2:78:c6.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added 'localhost' (RSA) to the list of known hosts.
-fedora@localhost's password: (123user)
-$ id
-uid=1001(fedora) gid=1001(fedora) groups=1001(fedora)
-$ passwd
-Changing password for user fedora.
-Changing password for fedora
-(current) UNIX password: (123user)    /* 이전 비밀번호 확인 */
-New UNIX password: (P@ssw0rd##1.)         /* 새로운 비빌번호 입력 */
-Retype new UNIX password: (P#ssw0rd##1.)  /* 새로운 비빌번호 동일하게 재 입력 */
-passwd: all authentication tokens updated successfully.
-$ exit 
-#
-비밀번호를 변경하는 일 외에도 passwd 삭제, 사용자 계정에 대한 잠금, 해제 등 여러 기능이 있다.
-
-(복원) 관리자가 사용자의 암호 변경
-fedora 사용자의 암호를 fedora로 변경
-# passwd fedora 
--> 일반사용자는 아이디와 암호를 동일하게 설정할수 없다.
-
-stdin옵션
-# echo 'password' | passwd --stdin [USERNAME]
 
 시스템의 기본적인 정보를 확인하는 명령어
+
+관리자, 사용자로 접근한 뒤 시스템의 기본적인 정보를 확인 할 수 있어야 하고, 정보를 바탕으로 패키지 설치, 사용하는 명령을 선택.
 
 - uname 명령어
     
@@ -625,10 +590,8 @@ Rocky Linux release 9.0 (Blue Onyx)
 
 
 https://docs.redhat.com/
-http://www.centos.org/docs/
-http://www.centos.org/docs/3/CentOS 3.X
-http://www.centos.org/docs/4/CentOS 4.X
-http://www.centos.org/docs/5/CentOS 5.X
+https://docs.redhat.com/ko/documentation/red_hat_enterprise_linux/9
+
 centos6부터는 RHEL 레드햇 공식 웹사이트를 이용해야한다.
 [참고]
 centos는 RHEL을 전신으로 개발된 무료용버전이기 때문에 기술들이 레드햇에서 문서가 있는 경우가 많다.
