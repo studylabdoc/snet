@@ -715,7 +715,7 @@ wired에서 비활성화 > 활성화
 # ip a
 
 inet 192.168.10.210/24
-# ping -c www.google.com
+# ping -c 1 www.google.com
 # hostnamectl hostname server1.example.com
 # hostnamectl
 # poweroff
@@ -725,6 +725,11 @@ server1 우클릭 > snapshot > takesnapshot > install
 
 위와 같은 방법으로 server2도 작업
 
+
+termius 다운로드
+https://termius.com/download/windows
+
+수업에서 사용할 터미널 프로그램
 
 
 
