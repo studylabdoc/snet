@@ -748,5 +748,6 @@ windows home -> 배치
 
 Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All
 
+----
 
 
