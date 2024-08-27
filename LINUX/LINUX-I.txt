@@ -639,6 +639,7 @@ run-level 5  2020-03-11 10:23                   last=3
 
 # systemctl get-default
 graphical.target     => init 5과 동일
+multi-user.target     => init 3과 동일
 
 ### system run level은 무엇인가?
 
