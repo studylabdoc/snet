@@ -635,6 +635,39 @@ finish
 
 >>>>>>> aa59554615545f18ad058bede24169437be7c24a
 
+리눅스 설치
+
+리눅스 명령어
+windows 로 생각해보자면.
+
+메인보드 제조 사 검색
+
+설치방법!
+
+설치후 재부팅
+root / rocky 접근
+
+# ping -c 3 www.google.com
+# systemctl set-default mulit-user.target
+# poweroff
+
+OVF 작업을 위해 설정 변경
+master >
+edit virtual machine setting >
+DVD > User physical drive
+[ ] connect at power on 
+MEM 1G
+CPU 1core
+
+OVF 생성
+
+master 선택
+FILE > export to OVF > 
+D:\VMs\OVF에 저장
+저장 시작...
+
+
+
 
 
 
