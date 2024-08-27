@@ -510,3 +510,53 @@ server2
 검사점에서 우클릭 > 이름바꾸기 
 
 안되는 분들은 VMware로 작업..
+-----------------------------
+상황 변경
+vmware로 이동
+
+hyper-v 사용자체는 문제가 없는데
+사양, 연식.. 포맷 되어 있는 상태의 PC
+
+vmware쪽으로 이동.
+가상머신 + 구축
+
+어제 설치한 hyper-v
+vmware
+
+가상화 솔루션
+MS - hyper-v
+vmware - vmware
+desktop vmware
+server vsphere (esxi)
+oracle - virtual box
+기업용 버전이 따로 존재.
+xen - xen server
+데스크탑 버전의 PC를 이용하기 위해서 사용
+linux - kvm (+ qemu)
+        ovirt(RHV) -> openstack 
+        kube virt 
+
+hyper-v 삭제 + vmware 설치 삭제.
+.
+
+hyper-v 기존에 사용한 가상머신을 삭제하고
+원본 파일까지 삭제 한뒤
+hyper-v 기능 비활성화.
+
+어제 생성한 디렉토리인 VMs아래의 ISO를 제외하고 모두 삭제
+VMs
+  ISO : ISO 이미지용
+  images : 실제 가상머신 파일을 위한 공간
+  OVF : export 파일을 내보내기 하는 용도의 디렉토리
+  
+
+
+
+
+
+
+
+
+
+
+
