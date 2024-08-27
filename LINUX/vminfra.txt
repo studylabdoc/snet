@@ -731,7 +731,18 @@ https://termius.com/download/windows
 
 수업에서 사용할 터미널 프로그램
 
+termius에 server 로그인 정보 등록하기
 
+New host >
+address : 192.168.10.210
+Label : server1-root
+login정보에서 root /rocky
+
+동일한 방법으로  server2도 작업
+New host >
+address : 192.168.10.220
+Label : server1-root
+login정보에서 root /rocky
 
 
 
