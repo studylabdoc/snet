@@ -744,6 +744,9 @@ address : 192.168.10.220
 Label : server1-root
 login정보에서 root /rocky
 
+windows home -> 배치 
+
+Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All
 
 
 
