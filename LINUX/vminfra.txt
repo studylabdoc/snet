@@ -548,6 +548,7 @@ VMs
   ISO : ISO 이미지용
   images : 실제 가상머신 파일을 위한 공간
   OVF : export 파일을 내보내기 하는 용도의 디렉토리
+<<<<<<< HEAD
 
 [win]+ r : control
 보기기준 : 범주 > 작은 아이콘
@@ -562,6 +563,77 @@ vmware 설치
 설치 시작 > 재부팅..
 재부팅 하고 시작 네트워크 세팅 끝내고
 리눅스 설치 > 
+=======
+  
+vmware 설정 및 확인
+준석
+디렉토리 구조
+
+vmware 처음 설치시에는 기본값.
+어제 설정과 맞추기 위해서 약간 변경을 해야 한다.
+
+네트워크 설정 하기
+vmware
+> edit > virtual network editor
+관리자 권한 획득
+
+VMnet8 선택
+Subnet IP : 192.168.10.0
+
+NAT settings >
+Gateway IP : 192.168.10.2
+OK
+
+구버전을 사용할 때 일어날 문제점.
+
+네트워크가 되는지 안되는지 확인
+[win] + r : cmd
+route print
+
+     192.168.10.0    255.255.255.0             연결됨      192.168.10.1    291
+     192.168.10.1  255.255.255.255             연결됨      192.168.10.1    291
+
+만약에 안나온다면?
+작업관리자 실행 > 서비스
+vmware NAT Service 
+중지됨으로 되어 있을 가능성이 있음
+
+-------------------
+가상머신을 생성
+컴퓨터
+CPU
+MEM
+disk
+
+File > New virtual machine
+Custom >
+하드웨어 버전 선택
+기본값 >
+OS 선택은 나중에. >
+guest OS 
+host  vmware가 실행된 컴퓨터
+guest 내부의 가상머신
+Rocky Linux 64bit >
+가상머신의 저장소 , 이름 선택
+machine name:master
+Location: D:\VMs\images\master >
+
+CPU 4core >
+mem 4096 >
+network NAT >
+I/O >
+집중 : Disk Type
+SCSI >
+new virtual disk >
+100G / single file > 
+disk file name >
+customize hardware >
+DVD iso image 탑재 / Conner at power on >
+finish
+
+
+
+>>>>>>> aa59554615545f18ad058bede24169437be7c24a
 
 
 
