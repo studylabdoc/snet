@@ -708,6 +708,23 @@ server1 기동
 root / rocky
 # systemctl isolate graphical.target
 
+GUI 로그인 > 토폴로지 버튼 > 네트워크 설정 > ipv4 > manual
+server1의 구성 완료
+wired에서 비활성화 > 활성화
+터미널을 열고 다음 명령을 확인
+# ip a
+
+inet 192.168.10.210/24
+# ping -c www.google.com
+# hostnamectl hostname server1.example.com
+# hostnamectl
+# poweroff
+
+스냅샷 >
+server1 우클릭 > snapshot > takesnapshot > install
+
+위와 같은 방법으로 server2도 작업
+
 
 
 
