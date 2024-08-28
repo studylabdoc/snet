@@ -398,16 +398,20 @@ drwxr-xr-x.  2 root root  19  3월 12 11:49 dir1
 # cp /bin/ls file3        /* 실행 파일 */
 # mkdir dir1              /* 디렉토리 파일 */
 
-# ls -F   (dir1/  file1  file2@  file3*)
-# ls (dir1   file1  file2   file3 )
+# ls -F
+dir1/  file1  file2@  file3*
+
+dir1/  디렉토리
+file1  파일
+file2@ 링크
+file3* 실행파일
 
 [참고]
-
 리눅스의 경우는 파일, 디렉터리등 종류가 다르다면 다른 색깔로 표시를 해주기 때문에 –F의 경우 그렇게 사용량이 많지는 않다. 하지만 다른 UNIX계열의 OS는 동일하게 표시되기 때문에 알아두자.
 
 ### [EX4]  ls -i' 옵션 실습
 
--i는 Index NODE인 inode를 표시해주기 위한 옵션이다. 파일의 속성정보를 담고있는 inode의 구분번호를 표시해 주고 [있다. ls](http://xn--2j1bk50b.ls/) –l로 명령어를 입력한 경우의 출력되는 결과들이 저장되어 있다. 
+-i는 Index NODE인 inode를 표시해주기 위한 옵션이다. 파일의 속성정보를 담고있는 inode의 구분번호를 표시해 주고 –l로 명령어를 입력한 경우의 출력되는 결과들이 저장되어 있다. 
 
 데이터는 Data Block이라는 공간에 별도로 저장되어있다
 
@@ -452,8 +456,6 @@ alias lsd='ls -l | grep "^d"'
 
 
 ### [EX6] ls -h 옵션 설정(-h : human)
-
-- [ ]  alias를 지정하지 않은 경우
 
 # cd /test
 # cat /etc/services >> file1
