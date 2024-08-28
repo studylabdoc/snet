@@ -744,6 +744,8 @@ Hello, Linux
 PID  TTY          TIME CMD
 3290 pts/0    00:00:00 bash
 3608 pts/0    00:00:00 bash
+bash : 현재 사용하고 있는 쉘
+ps : 순간 실행된 프로세스
 
 
 [참고] BASH : 명령어 해석기
@@ -767,9 +769,6 @@ bash
           | bash       |
           +------------+
 
-
-
-
 # ps
 PID TTY          TIME CMD
 3290 pts/0    00:00:00 bash /* 이전에 실행한 bash shell이 종료 */
@@ -778,9 +777,9 @@ PID TTY          TIME CMD
 GUI – 터미널이 종료된다
 CLI – login 창으로 돌아간다
 
-# init 3
+# systemctl isolate multi-user.target
 login: root
-password: redhat
+password: rocky
 # ps
 # bash
 # ps 
@@ -794,19 +793,18 @@ login:
     
     # halt
     # poweroff
-    
     # init 0
-    
+    # systemctl poweroff 
     # shutdown -h now
     
 - 시스템 재부팅
     
      # reboot
-    
      # init 6
-    
+     # systemctl reboot
      # shutdown -r now
     
+다른 명령과 달리 shutdown은 유예시간을 가지고 종료와 재부팅을 조절 할 수 있다.
 
 ---
 
@@ -875,9 +873,9 @@ passwd 명령어 다음에 지정된 사용자가 없으면 자신의 암호를 
 
 # passwd    /* 변경된 root 계정의 비밀번호를 복구한다. */
 Changing password for user root.
-New UNIX password: (centos)                       /* 새 패스워드 입력 */
+New UNIX password: redhat                       /* 새 패스워드 입력 */
 BAD PASSWORD: it is based on a dictionary word
-Retype new UNIX password: (centos)                /* 새 패스워드 확인 메시지 */
+Retype new UNIX password: redhat                /* 새 패스워드 확인 메시지 */
 passwd: all authentication tokens updated successfully.
 
 root 사용자의 비밀 번호 변경 중
@@ -886,6 +884,7 @@ root 사용자의 비밀 번호 변경 중
 새  암호 재입력:
 passwd: 모든 인증 토큰이 성공적으로 업데이트 되었습니다.
 
+과정을 마치기 전에 이전 비밀번호인 rocky로 비밀번호를 다시 변경한다.
 
 ## date
 
@@ -966,19 +965,6 @@ HW-OS 시간 동기화
 # hwclock --systohc    /* System Time -> Hardware Clock */
 # hwclock --hctosys    /* Hardware Clock -> System Time */
 
-# 관리자 비밀번호 변경
-
-## 관리자 비밀번호를 변경하는 경우
-
-- 주기적인 비밀번호 변경
-- 비밀번호를 잊어버린경우
-- 해킹들의 외부 침입으로 인한 경우
-
-### [EX] 기본적인 비밀번호 변경
-
-# passwd
-
-일상적으로 변경하는 경우에는 passwd 명령어로 변경한다.
 
 
 
