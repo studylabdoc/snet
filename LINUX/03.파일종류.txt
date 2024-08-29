@@ -437,8 +437,8 @@ tomcat-4.X  tomcat-5.X  tomcat
 - [ ]  Character Device File( = Raw Device File)
 
 - [ ]  디바이스 파일(장치 파일, Device File)
-    - 블럭 디바이스 파일(Block Device File)
-    - 캐릭터 디바이스 파일(Character Device File) = Raw Device File
+    - 블럭 디바이스 파일(Block Device File) b
+    - 캐릭터 디바이스 파일(Character Device File) = Raw Device File c 
 - [ ]  블럭 디바이스 파일
     - 블럭 단위로 I/O 발생
     - 디스크 디바이스(Disk Device)이면 I/O 단위는 4K(4096 Bytes)
