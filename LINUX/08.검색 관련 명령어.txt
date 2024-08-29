@@ -1,0 +1,506 @@
+# 검색 관련 명령어
+
+# 단원목표
+
+---
+
+- grep 명령어
+- find 명령어
+
+---
+
+# grep 명령어
+
+---
+
+- grep 명령어
+    
+     # grep OPTIONS PATTERN ARG1
+    
+    OPTIONS : -l, -n, -I, -v, -w
+    
+    PATTERN : * . ^root root$ [abv] [^a]
+    
+
+ # CMD | grep sshd
+
+ # ps –ef | grep systemd
+
+ # rpm –qa | grep open-ssh
+
+ # cat /etc/passwd | grep root
+
+ # cat /etc/group | grep root
+
+ # cat /var/log/messages | egrep '(warn|err|crti|alert|emerg)'
+
+---
+
+## grep 명령어
+
+파일 내에서 특정한 패턴을 검색하여 그 패턴을 포함하는 모든 줄을 화면에 출력하는 명령어. 파일 내에 특정한 패턴을 찾기 위해 많이 사용한다. 찾으려고 하는 패턴을 정규식(g/re/p, Globally/Regular Expression/Print)이라고 표현한다. grep 명령어의 약자에서 볼 수 있듯이 많은 패턴을 제공하고 있다.
+
+[명령어 형식]
+# grep OPTIONS PATTERN file1
+
+(기본 사용법)
+# grep root /etc/passwd    (# cat /etc/passwd | grep root)
+# CMD | grep root 
+# cat /etc/passwd | grep root 
+# rpm -qa | grep ssh
+# ps -ef | grep socket 
+
+(옵션 사용법) "# grep OPTIONS PATTERN file1"
+# grep -l root /etc/hosts /etc/passwd /etc/group /* 여러 파일 중 검색 문자열 존재 파일 출력 */
+# grep -n root /etc/group  /* -n: number line, 파일에서 root 문자열을 검색하고 라인 번호도 같이 출력 # cat -n /etc/passwd | grep root */ 
+# grep -v root /etc/passwd  /* -v: inverse, 파일에서 검색 문자열을 제외하고 나머지 출력 */
+# grep -i root /etc/passwd  /* -i: ignore case, 파일에서 검색 문자열의 대소문자를 구분하지 않음 */
+# grep -w root file1        /* -w: word , 단어의 일부분이 아닌 단어의 전체가 일치하는 경우 출력 */
+# grep --color root /etc/passwd
+
+[명령어 옵션]
+
+옵션 : 설명
+
+-l : (-l : list files) 패턴이 있는 파일이름만을 출력한다.
+-n : (-n : number line) 패턴을 포함하는 줄을 출력할 때 줄번호와 함께 출력한다.
+-v : (-v : inVerse, except) 패턴을 포함하는 줄을 제외하고 출력한다.
+-c : (-c : count) 패턴을 찾은 줄의 수를 출력한다.
+-i : (-i : ignore case, 대문자/소문자) 패턴을 찾을 때 대소문자를 구분하지 않는다.
+
+(패턴 사용법) "# grep OPTIONS PATTERN file1"
+
+*       # grep 'ro*t' /etc/passwd       모든문자를 포함(영문자,숫자) 
+.       # grep 'no...y' /etc/passwd     (.에 하나의 영문자나 숫자를 치환)
+^root   # grep '^root' /etc/passwd      라인의 시작이 root인 라인을 검색
+root$   # grep 'root$' /etc/group       라인의 끝이 root로 끝나는 라인을 검색
+[abc]   # grep 'user0[123]' /etc/passwd user0으로 시작하여 1이나 2나,3으로 끝나는 문자열
+
+[EX1] grep 명령어 옵션 실습
+
+# useradd FEDORA
+# passwd FEDORA 
+-> 사용자 암호 입력
+
+# grep fedora /etc/passwd    (# cat /etc/passwd | grep fedora)
+fedora:x:1001:1001::/home/fedora:/bin/bash
+# grep FEDORA /etc/passwd
+FEDORA:x:1004:1004::/home/FEDORA:/bin/bash
+
+리눅스는 대소문자를 구별하기 때문에 검색을 하는 경우에 대소문자를 정확히 구별하여 패턴 작성을 해야 한다.
+하지만 이것을 무시하고 검색을 해야 하는 경우에는 -i 옵션을 사용해준다.
+# grep -i fedora /etc/passwd
+fedora:x:1001:1001::/home/fedora:/bin/bash
+FEDORA:x:1004:1004::/home/FEDORA:/bin/bash
+
+(실무 예) 환경 파일에 등록
+
+# alias grep='grep -i'          => $HOME/.bashrc 
+# alias grep='grep -i --color'  => $HOME/.bashrc < 검색된 단어에 색상을 입혀 가독성을 높여준다 >
+
+# vi ~/.bashrc 
+alias grep='grep -i --color'
+# . ~/.bashrc 
+# alias grep
+
+# grep -n fedora /etc/passwd  (# cat -n /etc/passwd | grep fedora)
+48:fedora:x:1001:1001::/home/fedora:/bin/bash
+# grep -n root /etc/group
+1:root:x:0:
+# grep -l root /etc/group /etc/passwd /etc/hosts
+/etc/group
+/etc/passwd
+# vi file.txt
+
+
+
+# grep -w root file.txt
+root hello
+
+[EX2] grep 명령어 패턴 실습
+# nmcli con show
+NAME   UUID                                  TYPE      DEVICE 
+ens33  7da16185-c5c7-47de-8e44-07c3276d5006  ethernet  ens33
+
+# grep -lr ens33 /etc
+/etc/sysconfig/network-scripts/ifcfg-ens33
+
+# cat /var/log/messages | grep -i aug | head -5
+Aug 21 14:33:19 server1 kernel: Linux version 4.18.0-193.el8.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 8.3.1 20191121 (Red Hat 8.3.1-5) (GCC)) #1 SMP Fri May 8 10:59:10 UTC 2020
+Aug 21 14:33:19 server1 kernel: Command line: BOOT_IMAGE=(hd0,msdos1)/vmlinuz-4.18.0-193.el8.x86_64 root=/dev/mapper/cl-root ro resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet
+Aug 21 14:33:19 server1 kernel: Disabled fast string operations
+Aug 21 14:33:19 server1 kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+Aug 21 14:33:19 server1 kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+# cat /var/log/messages | grep -i 'aug 26'
+
+# ps
+PID TTY          TIME CMD
+13929 pts/2    00:00:00 bash
+# ps -ef | grep 13929
+root     13929 13927  0 14:00 pts/2    00:00:00 -bash
+# ps -ef | grep bash
+root      7117  7115  0 00:53 pts/3    00:00:00 -bash
+root      7364  7117  0 01:47 pts/3    00:00:00 -bash
+root     27308 27302  0 Jan26 pts/2    00:00:00 bash
+# rpm -qa | grep postfix
+postfix-8.13.8-2.el5
+postfix-cf-8.13.8-2.el5
+
+		# rpm -q postfix 
+		# rpm -qa postfix  
+		# rpm -qa | grep postfix
+
+[EX3] 파일내의 특정 패턴 여러개 검색하기
+grep의 태생적 한계 -> 하나이상의 패턴 검색이 불가능
+■ egrep(Extended grep) CMD /* 동시에 여러개의 패턴을 검색하는 경우에 사용 &/
+# cat /var/log/messages | egrep -i '(warn|err|crit|alert|emerg)' 
+# cat /etc/passwd | egrep -i '(root|fedora)'
+root:x:0:0:root:/root:/bin/bash
+operator:x:11:0:operator:/root:/sbin/nologin
+fedora:x:1001:1001::/home/fedora:/bin/bash
+FEDORA:x:1002:1002::/home/FEDORA:/bin/bash
+
+■ fgrep(Fixed grep) CMD
+# fgrep '^root' file1
+
+# egrep "fedora|root" /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+operator:x:11:0:operator:/root:/sbin/nologin
+fedora:x:1001:1001::/home/fedora:/bin/bash
+
+(실무 예) 로그 파일에서 에러 메세지 검색
+
+# cat /var/log/messages | egrep –i '(warn|err|crit|alert|emerg)'
+# egrep -v "fedora|user01" /etc/passwd    (# egrep -v "(fedora|user01)" /etc/passwd)
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+..... (중략) .....
+
+(실무) 특정한 단어를 제외하고 검색
+# ps –ef | grep sshd | grep –v grep 
+
+grep : 강력한 패턴 매칭 템플릿을 정의하기 위해 "정규 표현식"을 사용할 수 있다.  
+egrep[옵션] "패턴|패턴|..." [대상파일들] : 확장된 정규 표현식을 사용하며, 찾아낼 패턴을 여러개 지정할 수 있다. 
+'|'기호는 불린 연산자 "OR"에 해당하므로, 정해진 패턴들에 포함되는 모든 라인을 보여준다.  
+fgrep[옵션] 패턴 [대상파일들] : 패턴과 정확히 일치하는 것만을 찾아 준다.
+
+find 명령어
+
+# find / -name core –type f
+
+ # find / -user user-1 –group class1
+
+ # find / -mtime [-7|7|+7]
+
+ # find / -perm [755|-755]
+
+ # find / -size [-300M|300M|+300M]
+
+ # find / -name core –type f –exec rm –f {} \;
+
+ # find / -name core –type -ls
+
+ # find / -name core –type f –ok rm {} \;
+
+ # find /Log_Dir –name "*.log" –type f \
+
+ > -mtime +30 –exec rm 0rf {} \;
+
+ # find /Log_Dir –mtime -2 –size +1G –type
+
+## find 명령어
+
+디렉토리안에서 원하는 파일을 찾고자 할 때 사용하는 명령어이다. find 명령 다음에 시작 디렉토리를 정해 주고 찾고자하는 파일 이름 앞에 옵션을 주면 된다.
+
+[명령어 형식]
+# find [검색시작위치] [옵션1] [인자값1] [옵션2] [인자값2] ...
+
+[명령어 옵션]
+
+옵션 : 설명
+
+-name : 파일 이름을 기준으로 검색
+
+-iname: 대소문자를 구별하지 않고 파일 이름을 기준으로 검색
+
+-perm : 파일 권한을 기준으로 검색한다.
+
+-type : 파일의 종류를 기준으로 검색
+
+b : 블록 파일
+
+c : 문자
+
+d : 디렉토리
+
+f : 파일
+
+l : 링크
+
+s : 소켓
+
+-size : 파일의 크기를 기준으로 검색
+
++n : n보다 크다
+
+-n : n보다 작다
+
+n : n이다
+
+b : 512-byte
+
+c : Bytes (Character = Byte)
+
+k : Kilo Byte
+
+M : Mega Bytes
+
+G : Giga Bytes
+
+w : 2-byte
+
+-links : 링크의 개수를 기준으로 검색
+
+-user : 사용자 ID를 기준으로 검색
+
+-group: 그룹 ID를 기준으로 검색
+
+-atime : 특정 기간 이상 접근하지 않은 파일을 기준으로 검색
+
+-mtime : 특정 기간 이상 수정되지 않은 파일을 기준으로 검색
+
+-inum : number 지정된 inode 번호와 파일을 찾는다.
+
+-print : 표준출력으로 검색된 파일 출력: GNU는 디펄트, Unix는 필수 입력
+
+-exec command {} ₩; :찾은 각 파일에 대해 지정된 명령을 실행
+
+-ok command {} \; : 실행여부(실행 되어 있는지 아닌지)를 사용자에게 확인 후 명령을 실행
+
+------------------------------------------------------------------------------
+(형식1) # find / -name core -type [f|d]    (# find / -name "*oracle*" -type f)
+(형식2) # find / -user user01 -group class1 
+(형식3) # find / -mtime [-7|7|+7] 
+(형식4) # find / -perm [-755|755] 
+(형식5) # find / -size [-300M|300M|+300M]
+(형식6) # find / -name core -type f -exec rm {} \;
+------------------------------------------------------------------------------
+
+[EX1] 파일 이름 검색(예: # find / -name core –type f)
+/test -+- dir1 - file1 
+			 |
+			 +- dir2 - file3
+		   |
+			 +- file1
+			 |
+			 +- file2
+
+
+# cd /test 
+# find . -name file1
+./dir1/file1
+./file1
+-> "."은 현디렉토리, 이름이 file1인 찾아라 디렉토리이던 파일이던 type과 상관없이 모두 찾는 것
+# find . -name file1 -type f
+./dir1/file1
+./file1
+# find /var -name "*.log" -type f
+/var/log/audit/audit.log
+/var/log/sssd/sssd.log
+/var/log/sssd/sssd_implicit_files.log
+/var/log/sssd/sssd_nss.log
+/var/log/sssd/sssd_kcm.log
+/var/log/tuned/tuned.log
+..... (중략) .....
+
+[EX2] 사용자/그룹 검색(예: # find / -user user01 -group class1)
+
+# find /home -user fedora -group fedora
+/home/fedora
+/home/fedora/top.seceret.mail
+/home/fedora/.bashrc
+..... (중략) .....
+# find /home -user fedora -group fedora -ls 
+-> 출력 결과 확인
+
+[EX3] 날짜 검색(예: # find / -mtime 7)
+# cd dir2 
+# touch file1 file2 file3 file4 file5 file6 
+
+# date 08191111
+Thu Aug 19 11:11:00 KST 2010
+
+참고 - vmware에서 실습을 진행하는 경우 NTP로 인하여 , VMware tools로 인하여 시간이 계속 변경되기 때문에 
+터미널을 하나 더 실행하여 다음 명령어로 현재 시간을 확인하며 실습을 진행한다.
+# watch -n date
+# while : ; do date 08191111; sleep 1; echo "date resetting"; done
+
+
+[참고] 파일 속성 정보
+     file6      file5       file4        file3      file2      file1
+  -----+----------+------------+----------+----------+----------+---------+   
+     0813        0814         0815       0816      0817        0818      0819
+
+# touch -t 08181111 file1 
+# touch -t 08171111 file2 
+# touch -t 08161111 file3 
+# touch -t 08151111 file4 
+# touch -t 08141111 file5 
+# touch -t 08131111 file6
+# ls -l file*
+-rw-r--r-- 1 root root 0 Aug 18 11:11 file1
+-rw-r--r-- 1 root root 0 Aug 17 11:11 file2
+-rw-r--r-- 1 root root 0 Aug 16 11:11 file3
+-rw-r--r-- 1 root root 0 Aug 15 11:11 file4
+-rw-r--r-- 1 root root 0 Aug 14 11:11 file5
+-rw-r--r-- 1 root root 0 Aug 13 11:11 file6
+# find . -mtime 3 -type f /* 수정 날짜가 3일전인 파일 */
+./file3
+# find . -mtime -3 -type f /* 수정한 날짜가 3일이 안된 파일 */
+./file3
+./file2
+./file1
+# find . -mtime +3 -type f /* 수정한 날짜가 3일이 지난 파일 */
+./file6
+./file5
+./file4
+
+[EX4] 퍼미션 검색(예: # find / -perm 755 -type f)
+# cd /test 
+# mkdir dir3 
+# cd dir3 
+# touch file1 file2 file3 file4 file5 file6 file7 file8 
+
+# chmod 000 file1  (---)
+# chmod 100 file2  (--x)
+# chmod 200 file3  (-w-)
+# chmod 300 file4  (-wx)
+# chmod 400 file5  (r--)
+# chmod 500 file6  (r-x)
+# chmod 600 file7  (rw-)
+# chmod 700 file8  (rwx)
+
+# ls -l file*
+---------- 1 root root3043 3월 18 14:54 file1
+---x------ 1 root root362131 3월 18 14:52 file2
+--w------- 1 root root  0 3월 18 14:52 file3
+--wx------ 1 root root  0 3월 18 14:52 file4
+-r-------- 1 root root  0 3월 18 14:52 file5
+-r-x------ 1 root root 0 3월 18 14:52 file6
+-rw------- 1 root root  0 3월 18 14:52 file7
+-rwx------ 1 root root 0 3월 18 14:52 file8
+# find . -perm 600 -type f –ls 
+-> file7
+
+# find . -perm -400 -type f -ls 
+-> file5, file6, file7, file8
+
+SETUID SETGID 동시에 검색
+# find /  -perm -2000 -o -perm -4000
+# find / -perm -4000 -not -path "/proc/*" 2> /dev/null
+# find / -perm -4000  2> /dev/null
+
+### [EX5] 파일 크기 검색(예: # find / -size 50k -type f)
+# cp /etc/passwd file10 
+# cp /etc/services file11 
+# ls -l 
+
+* file1-8   0    Bytes
+* file10  3228   Bytes
+* file11  692252 Bytes
+
+# find . -size 2490c –type f    /* 정확이 일치되는 용량만 검색 */
+-> file10
+
+# find . -size -1980c –type f   /* 일치되는 것 제외한 파일 크기가 2027bytes 미만 */
+-> file1-8
+
+# find . -size +1980c –type f   /* 파일 크기가 2027bytes 보다 큰것 */
+-> file11
+
+[EX6] 디렉토리안에 특정한 패턴을 가진 파일들을 삭제(# find / -name file -type f -exec rm {} \;)
+# cd /test
+# find . -name file1 -type f /* 파일의 이름이 file1인 것 */
+./file1
+./dir2/file1
+
+# find . -name file1 -type f -ls 
+# find . -name file1 -type f -exec chown -v user01 {} \; 
+# find . -name file1 -type f -ls 
+
+# find . -name file1 -type f -exec chmod -v 640 {} \; 
+# find . -name file1 -type f -ls 
+
+# find . -name file1 -type f -exec rm -fv {} \; 
+# find . -name file1 –type f
+
+/proc 디렉토리 제외하고 검색하기
+# find / -name file1 -not -path '/proc/*'
+
+find 명령어에서 -exec 옵션에서 중괄호 {}의 역할
+find 명령어는 검색으로 출력되는 하나 이상의 파일 및 디렉토리 결과를 가지고 있다. 이 결과를 바탕으로 -exec 옵션에서는 2차적으로 명령을 진행가능하다.
+이때 [}는 버퍼의 역할을 하며 순차적으로 처음 검색된 내용부터 차례대로 치환된다. 이 치환은 마지막 검색내용이 입력될때까지 반복된다.
+
+find 명령어에서 -exec 옵션에서 세미콜론(;)의 역할
+find 명령어를 사용하면서 출력된 결과를 가지고 바로 후처리 실행으로 이어질수 있는 옵션인 exec ok가 존재한다. 해당 문법의마지막에는 세미콜론(;)이 입력된다. 하지만 쉘에서는 세미콜론(;)을 기준으로 앞 명령어와 뒤 명령어를 구분하는 구분자로 사용하기 때문에 그냥 사용할수는 없으며 바로 앞에 역슬래시를 붙여 \; 구조로 만들어줘야 find 명령어에서 정상적으로 해석가능하다.
+
+
+
+(실무 예) 오래된 로그 기록 삭제
+한달(시스템 생성일 ~ 30일)이 지난 로그파일은 그 의미를 상실하게 된다. 따라서 일정 시간이 지난 로그파일의 경우 find라는 명령어를 이용하여 파일을 주기적으로 삭제해 주도록 한다.
+
+# find /Log_Dir1 -name "*.log" -type f -mtime +30 -exec rm –f {} \;
+# find /Log_dir2 -name "*.log" -type f -mtime +60 -exec rm –f {} \;
+
+(실무 예) 파일시스템이 갑자기 풀(Full) 나는 경우
+# find /var -mtime -2 -size +1G –type f
+# find /var -mtime -2 -size +512M -type f
+/var/server/log/file.log
+
+[참고] lsof(list open file)
+# lsof | grep /var/server/log/file.log
+
+(실무 예) 에러메세지가 들어 있는 startup script 검색
+# /was/bin/startup.sh 
+..... Server Error .....
+# find /was –type f –exec grep –l 'Server Error' {} \;
+/was/conf/server.xml
+# vi /was/conf/server.xml
+/Server Error
+......
+if 조건 ; then
+
+else
+echo "Server Error"
+fi
+
+
+
+(실무 예) 에러 메세지를 검색하는 방법
+http://www.google.co.kr
+-> site:.redhat.com "Server Error"
+-> 가상화 .pdf
+-> 가상화 .ppt
+-> "Server Error1" AND "Server Error2" (AND/OR)
+-> "Server Error1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
